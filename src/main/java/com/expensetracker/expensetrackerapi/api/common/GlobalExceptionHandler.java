@@ -13,10 +13,18 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     ProblemDetail handleValidation(MethodArgumentNotValidException ex) {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
-        problem.setDetail("Validasi gagal");
+        problem.setTitle("Validasi gagal");
         problem.setProperty("errors", ex.getBindingResult().getFieldErrors().stream()
                 .map(FieldError::getDefaultMessage).toList()
         );
+        return problem;
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    ProblemDetail handleNotFound(NotFoundException ex) {
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
+        problem.setTitle("Data tidak ditemukan");
+        problem.setDetail(ex.getMessage());
         return problem;
     }
 }
