@@ -1,6 +1,5 @@
 package com.expensetracker.expensetrackerapi.api.transaction;
 
-import com.expensetracker.expensetrackerapi.api.category.Category;
 import com.expensetracker.expensetrackerapi.api.category.CategoryRepository;
 import com.expensetracker.expensetrackerapi.api.common.NotFoundException;
 import org.springframework.stereotype.Repository;
@@ -9,7 +8,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.stream.Collectors;
 
 @Repository
 public class InMemoryTransactionRepository implements TransactionRepository {
@@ -47,7 +45,7 @@ public class InMemoryTransactionRepository implements TransactionRepository {
     public List<Transaction> findByCategoryId(Long id) {
         categoryRepository.findById(id).orElseThrow(() -> new NotFoundException("Kategori id " + id + " tidak ditemukan"));
 
-        List<Transaction> filteredData = storage.values().stream().filter(val -> val.categoryId() == id).collect(Collectors.toList());
+        List<Transaction> filteredData = storage.values().stream().filter(val -> val.categoryId() == id).toList();
         return filteredData;
     }
 }
