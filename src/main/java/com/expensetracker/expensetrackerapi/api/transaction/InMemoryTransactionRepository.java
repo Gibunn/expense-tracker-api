@@ -23,8 +23,6 @@ public class InMemoryTransactionRepository implements TransactionRepository {
 
     @Override
     public Transaction save(Transaction transaction) {
-        categoryRepository.findById(transaction.categoryId()).orElseThrow(() -> new NotFoundException("Kategori id " + transaction.categoryId() + " tidak ditemukan"));
-
         if (transaction.id() == null) {
             Transaction withId = transaction.withId(idSequence.incrementAndGet());
             storage.put(withId.id(), withId);
