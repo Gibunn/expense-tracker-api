@@ -9,6 +9,6 @@ public record TransactionResponse(
         LocalDate occuredOn,
         String note,
         Long categoryId,
-        String categoryName,
+        String categoryName
 ) {
 }
